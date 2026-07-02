@@ -1,0 +1,6 @@
+fastapi
+# python-josep
+
+argon2-cffi
+passlib
+PyJWT
