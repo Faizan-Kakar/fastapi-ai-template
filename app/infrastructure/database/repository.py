@@ -1,47 +1,56 @@
-# from app.domain.repositories.user_repositories import UserRepository
-# from app.infrastructure.database.connection import db
-# from app.domain.entities.user import User
 
-# class MongoUserRepository(UserRepository):
+from app.infrastructure.database.connection import db
 
-#     def __init__(self):
-#         self.collection = db["users"]
+from dataclasses import dataclass
+from datetime import datetime
 
-#     async def find_one(self, userid: str) -> bool:
+@dataclass
+class User:
+    name: str
+    userid: str
+    password: str
+   
 
-#         document =  self.collection.find_one(
-#             {"userid": userid}
-#         )
+class MongoUserRepository():
 
-#         if document is None:
-#             return False
+    def __init__(self):
+        self.collection = db["users"]
 
-#         return True
+    async def find_one(self, userid: str) -> bool:
 
-#     async def insert_one(self, user: User) -> User:
+        document =  self.collection.find_one(
+            {"userid": userid}
+        )
+
+        if document is None:
+            return False
+
+        return True
+
+    async def insert_one(self, user: User) -> User:
         
 
-#         self.collection.insert_one(
-#             {
-#                 "name": user.name,
-#                 "userid": user.userid,
-#                 "password": user.password
-#             }
-#         )
+        self.collection.insert_one(
+            {
+                "name": user.name,
+                "userid": user.userid,
+                "password": user.password
+            }
+        )
 
-#         return user
+        return user
 
-#     async def get_by_id(self, userid: str) -> User | None:
+    async def get_by_id(self, userid: str) -> User | None:
 
-#         document = self.collection.find_one(
-#             {"userid": userid}
-#         )
+        document = self.collection.find_one(
+            {"userid": userid}
+        )
 
-#         if document is None:
-#             return None
+        if document is None:
+            return None
 
-#         return {
-#             "name" : document["name"],
-#             "userid" : document["userid"],
-#             "password" : document["password"]
-#         }
+        return {
+            "name" : document["name"],
+            "userid" : document["userid"],
+            "password" : document["password"]
+        }
